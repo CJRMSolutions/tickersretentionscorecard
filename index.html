@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Evaluation Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            background-color: #e3e3e3;
+        }
+
+        .top-bar {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: flex-end; /* Changed from space-between to flex-end */
+            align-items: center;
+        }
+
+        .top-bar .welcome {
+            font-size: 14px;
+            margin-right: auto; /* Added to push sign-out button to the right */
+        }
+
+        .top-bar .sign-out {
+            background-color: white;
+            color: #333;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+
+        .content {
+            flex: 3;
+            margin-right: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            color: #233142;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        h1 img {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 50px;
+        }
+
+        .top-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .top-buttons button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .top-buttons button.submit {
+            background-color: #455d7a;
+            margin-left: auto;
+        }
+
+        .top-buttons button.reset {
+            background-color: #f95959;
+            margin-right: auto;
+        }
+
+        .info-table,
+        .evaluation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .info-table td,
+        .evaluation-table th,
+        .evaluation-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            font-size: 12px;
+        }
+
+        .info-table tr:nth-child(even),
+        .evaluation-table tr:nth-child(even) {
+            background-color: #e3e3e3;
+        }
+
+        .evaluation-table th {
+            background-color: #455d7a;
+            color: white;
+            text-align: center;
+        }
+
+        .evaluation-table td {
+            text-align: center;
+        }
+
+        .evaluation-table td:first-child {
+            text-align: left;
+        }
+
+        .red-flags,
+        .final-grade {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            color: #233142;
+            font-size: 16px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #e3e3e3;
+            margin-bottom: 5px;
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+
+        ul li select {
+            margin-left: 10px;
+            width: 70px;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        select {
+            width: 100%;
+        }
+
+        .call-outcome {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-end;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #e3e3e3;
+        }
+
+        .comments {
+            width: 100%;
+            margin-bottom: 20px;
+            margin-right: 15px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .bottom-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bottom-section div {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .bottom-section div:last-child {
+            margin-right: 0;
+        }
+
+        .bottom-section select {
+            width: 100%;
+        }
+
+        .final-grade p {
+            margin: 0;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .attach-recording {
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .attach-recording label {
+            display: block;
+            margin-bottom: 5px;
+            color: #233142;
+        }
+
+        .attach-recording input {
+            width: 100%;
+            padding: 5px;
+        }
+
+        .red-flags-container {
+            margin-bottom: 20px;
+        }
+
+        .red-flags select, .final-grade select {
+            width: 100px;
+        }
+
+        .final-grade-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .final-grade-container div {
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .final-grade-container select, .final-grade-container p {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="welcome">Welcome, User! – Monday, July 8, 2024 at 11:15:48 PM</div>
+        <button class="sign-out">Sign-Out</button>
+    </div>
+    <div class="container">
+        <div class="content">
+            <h1>
+                <img src="NOLogo.png" alt="Logo">
+                Ticket Evaluation Form
+            </h1>
+            <form id="ticketForm" onsubmit="submitForm(event)">
+                <table class="info-table">
+                    <tr>
+                        <td><strong>SID:</strong></td>
+                        <td>
+                            <input list="sids" id="sid" name="sid" required>
+                            <datalist id="sids">
+                                <option value="SID2049">
+                                <option value="SID1765">
+                                <option value="SID1802">
+                                <option value="SID1761">
+                                <option value="SID2047">
+                                <option value="SID2151">
+                                <option value="SID1339">
+                                <option value="SID1881">
+                                <option value="SID2236">
+                                <option value="SID1573">
+                                <option value="SID1663">
+                                <option value="SID2100">
+                                <option value="SID2239">
+                                <option value="SID1526">
+                                <option value="SID1849">
+                                <option value="SID2242">
+                                <option value="SID2296">
+                                <option value="SID1957">
+                                <option value="SID2291">
+                                <option value="SID2270">
+                                <option value="SID1246">
+                                <option value="SID1441">
+                                <option value="SID2238">
+                                <option value="SID2298">
+                                <option value="SID2351">
+                                <option value="SID1297">
+                                <option value="SID2153">
+                                <option value="SID2354">
+                                <option value="SID2364">
+                                <option value="SID2346">
+                                <option value="SID2347">
+                                <option value="SID2355">
+                                <option value="SID2434">
+                                <option value="SID2436">
+                                <option value="SID2437">
+                                <option value="SID2438">
+                                <option value="SID2435">
+                                <option value="SID2461">
+                                <option value="SID2462">
+                                <option value="SID2463">
+                                <option value="SID2464">
+                                <option value="SID2485">
+                                <option value="SID2486">
+                                <option value="SID2487">
+                                <option value="SID2488">
+                                <option value="SID2489">
+                                <option value="SID2490">
+                            </datalist>
+                        </td>
+                        <td><strong>Auditor:</strong></td>
+                        <td>
+                            <select id="auditor" required>
+                                <option value="">Select Auditor</option>
+                                <option value="Erick Jimenez">Erick Jimenez</option>
+                                <option value="Jairo Reyes">Jairo Reyes</option>
+                                <option value="Erwin Arauz">Erwin Arauz</option>
+                                <option value="Rose Flores">Rose Flores</option>
+                                <option value="Ronaldo Gutierrez">Ronaldo Gutierrez</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Agent's Name:</strong></td>
+                        <td>
+                            <select id="agentName" required>
+                                <option value="">Select Agent</option>
+                                <option value="Donald Cano">Donald Cano</option>
+                                <option value="Jonny Gago">Jonny Gago</option>
+                                <option value="Jose Perez">Jose Perez</option>
+                                <option value="Nemax Navas">Nemax Navas</option>
+                                <option value="David Sanchez">David Sanchez</option>
+                                <option value="Martina Larios">Martina Larios</option>
+                                <option value="Enmanuel Velasquez">Enmanuel Velasquez</option>
+                                <option value="Yadira Gomez">Yadira Gomez</option>
+                                <option value="Jonathan Duarte">Jonathan Duarte</option>
+                                <option value="Cesar Arana">Cesar Arana</option>
+                                <option value="Alejandro Quinto">Alejandro Quinto</option>
+                                <option value="Rebeca Alvear">Rebeca Alvear</option>
+                                <option value="Yader Davila">Yader Davila</option>
+                                <option value="Alira Lam">Alira Lam</option>
+                                <option value="Kathrine Patterson">Kathrine Patterson</option>
+                                <option value="Brian Vivas">Brian Vivas</option>
+                                <option value="Nefi Lopez">Nefi Lopez</option>
+                                <option value="Michel Sandoval">Michel Sandoval</option>
+                                <option value="Concepción Gutierrez">Concepción Gutierrez</option>
+                                <option value="Arelly Marenco">Arelly Marenco</option>
+                                <option value="Chirley Mccoy">Chirley Mccoy</option>
+                                <option value="Danilo Lopez">Danilo Lopez</option>
+                                <option value="Yader Ñamendy">Yader Ñamendy</option>
+                                <option value="Rosa Jara">Rosa Jara</option>
+                                <option value="Carlos Romero">Carlos Romero</option>
+                                <option value="Pedro Flores">Pedro Flores</option>
+                                <option value="Nahiris Mercado">Nahiris Mercado</option>
+                                <option value="Gloria Maldonado">Gloria Maldonado</option>
+                                <option value="Jose Rojas">Jose Rojas</option>
+                                <option value="Ana Barrera">Ana Barrera</option>
+                                <option value="Guillermo Cuadra">Guillermo Cuadra</option>
+                                <option value="Tishelly Mendieta">Tishelly Mendieta</option>
+                                <option value="Roger Aleman">Roger Aleman</option>
+                                <option value="Neythan Paz">Neythan Paz</option>
+                                <option value="Andrea Rocha">Andrea Rocha</option>
+                                <option value="Aura Urtecho">Aura Urtecho</option>
+                                <option value="Javier Reyes">Javier Reyes</option>
+                                <option value="Alejandro Cisneros">Alejandro Cisneros</option>
+                                <option value="Yamil Saenz">Yamil Saenz</option>
+                                <option value="Javier Rodriguez">Javier Rodriguez</option>
+                                <option value="Leeanthony Tellez">Leeanthony Tellez</option>
+                                <option value="Eliezer Martinez">Eliezer Martinez</option>
+                                <option value="Anabell Ruiz">Anabell Ruiz</option>
+                                <option value="Bryan Carmona">Bryan Carmona</option>
+                                <option value="Bryan Zelaya">Bryan Zelaya</option>
+                                <option value="Miguel Cortez">Miguel Cortez</option>
+                                <option value="Allison Perez">Allison Perez">
+                            </datalist>
+                        </td>
+                        <td><strong>Audit Date:</strong></td>
+                        <td>
+                            <input type="date" id="auditDate" readonly required>
+                        </td>
+                    </tr>
+                    <td><strong>Supervisor:</strong></td>
+                    <td>
+                        <select id="supervisor" required>
+                            <option value="">Select Supervisor</option>
+                            <option value="Erick Jimenez">Erick Jimenez</option>
+                            <option value="Jairo Reyes">Jairo Reyes</option>
+                            <option value="Erwin Arauz">Erwin Arauz</option>
+                            <option value="Rose Flores">Rose Flores</option>
+                            <option value="Ronaldo Gutierrez">Ronaldo Gutierrez</option>
+                        </select>
+                    </td>
+                    <tr>
+                        <td><strong>Ticket #:</strong></td>
+                        <td>
+                            <input type="text" id="ticketNumber" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ticket Queue:</strong></td>
+                        <td>
+                            <select id="ticketQueue" required>
+                                <option value="">Select Ticket Queue</option>
+                                <option value="CR - Call Back Request (CB)">CR - Call Back Request (CB)</option>
+                                <option value="CR - Compensation Request (CR)">CR - Compensation Request (CR)</option>
+                                <option value="CR - Complaint (CM)">CR - Complaint (CM)</option>
+                                <option value="CR - Debit Card Refund (DR)">CR - Debit Card Refund (DR)</option>
+                                <option value="CR - EDC (CR)">CR - EDC (CR)</option>
+                                <option value="CR - Franchise Escalations (FR)">CR - Franchise Escalations (FR)</option>
+                                <option value="CR - Insurance (IN)">CR - Insurance (IN)</option>
+                                <option value="CR - Medical Record Request (MR)">CR - Medical Record Request (MR)</option>
+                                <option value="CR - MEL Online Order Experience (CR)">CR - MEL Online Order Experience (CR)</option>
+                                <option value="CR - Online Order Claims (OC)">CR - Online Order Claims (OC)</option>
+                                <option value="CR - Order Cancellation (OC)">CR - Order Cancellation (OC)</option>
+                                <option value="CR - Order Status (OS)">CR - Order Status (OS)</option>
+                                <option value="CR - Prescription Request (PR)">CR - Prescription Request (PR)</option>
+                                <option value="CR - Product / Warranty / Recheck (PW)">CR - Product / Warranty / Recheck (PW)</option>
+                                <option value="CR - Refund Request / Status (RC)">CR - Refund Request / Status (RC)</option>
+                                <option value="CR - Request information (RI)">CR - Request information (RI)</option>
+                                <option value="CR - Rx Renewal Online (RX)">CR - Rx Renewal Online (RX)</option>
+                                <option value="CR - SO Online Order Experience (CR)">CR - SO Online Order Experience (CR)</option>
+                                <option value="GS&R/ PAR Platform Access (PA)">GS&R/ PAR Platform Access (PA)</option>
+                                <option value="ST - Clover Tracking (CT)">ST - Clover Tracking (CT)</option>
+                                <option value="ST - Employee Promotion (EP)">ST - Employee Promotion (EP)</option>
+                                <option value="ST - Frame Genie (FG)">ST - Frame Genie (FG)</option>
+                                <option value="ST - Frame Inquiry (FI)">ST - Frame Inquiry (FI)</option>
+                                <option value="ST - Separation (SE)">ST - Separation (SE)</option>
+                                <option value="ST - Social Media Inquiries (SM)">ST - Social Media Inquiries (SM)</option>
+                                <option value="ST - Zeus Presales (ZP)">ST - Zeus Presales (ZP)</option>
+                                <option value="ST Tracking - Chat Requests (CR)">ST Tracking - Chat Requests (CR)</option>
+                                <option value="ST Tracking - Email Requests (ER)">ST Tracking - Email Requests (ER)</option>
+                                <option value="ST Tracking - Social Escalations (SE)">ST Tracking - Social Escalations (SE)</option>
+                                <option value="Staff - BBB Complaints (BC)">Staff - BBB Complaints (BC)</option>
+                                <option value="Staff - BBB Reviews (BR)">Staff - BBB Reviews (BR)</option>
+                                <option value="Staff - Care Credit Claims (CC)">Staff - Care Credit Claims (CC)</option>
+                                <option value="Staff - Chargebacks (CH)">Staff - Chargebacks (CH)</option>
+                                <option value="Staff - Corporate Check Status (CC)">Staff - Corporate Check Status (CC)</option>
+                                <option value="Zeus - Corporate Login/ Access (CL)">Zeus - Corporate Login/ Access (CL)</option>
+                            </select>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td><strong>PT ID:</strong></td>
+                        <td>
+                            <input type="text" id="ptId" required>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="evaluation-table">
+                    <thead>
+                        <tr>
+                            <th>Quality Performance Measurements</th>
+                            <th>Weight</th>
+                            <th>Points Earned</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="4"><strong>Store</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Ticket created for the right store</td>
+                            <td class="weight">25</td>
+                            <td class="points-earned">25</td>
+                            <td>
+                                <select class="score" onchange="updateScores(this)">
+                                    <option value="Y">Y</option>
+                                    <option value="N">N</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"><strong>Sub-Category</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Ticket created by the right sub category</td>
+                            <td class="weight">25</td>
+                            <td class="points-earned">25</td>
+                            <td>
+                                <select class="score" onchange="updateScores(this)">
+                                    <option value="Y">Y</option>
+                                    <option value="N">N</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Was the ticket created by a valid reason</td>
+                            <td class="weight">7</td>
+                            <td class="points-earned">7</td>
+                            <td>
+                                <select class="score" onchange="updateScores(this)">
+                                    <option value="Y">Y</option>
+                                    <option value="N">N</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"><strong>Notation</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Zeus - Iris noted properly</td>
+                            <td class="weight">8</td>
+                            <td class="points-earned">8</td>
+                            <td>
+                                <select class="score" onchange="updateScores(this)">
+                                    <option value="Y">Y</option>
+                                    <option value="N">N</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><strong>Grade</strong></td>
+                            <td><strong>100</strong></td>
+                            <td><strong id="totalPoints">0</strong></td>
+                            <td><strong id="finalScore">0.00%</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div class="comments">
+                    <label for="comments"><strong>Comments:</strong></label>
+                    <textarea id="comments" placeholder="Enter comments here..." required></textarea>
+                </div>
+                <div class="final-grade-container">
+                    <div>
+                        <label for="main-disposition"><strong>Ticket Category:</strong></label>
+                        <select id="main-disposition" required>
+                            <option value="">Select Category</option>
+                            <option value="Insurance">Customer Issues</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="sub-disposition"><strong>Outcome:</strong></label>
+                        <select id="sub-disposition" required>
+                            <option value="">Select Outcome</option>
+                            <option value="116 Insurance">Resolved</option>
+                            <option value="Other">Escalated</option>
+                            <option value="Other">Closed due to Invalid</option>
+                        </select>
+                    </div>
+                    <div class="final-grade">
+                        <h2>Final Grade:</h2>
+                        <p id="finalGrade">0.00%</p>
+                    </div>
+                </div>
+
+                <div class="top-buttons">
+                    <button type="submit" class="submit">Submit</button>
+                    <button type="button" class="reset" onclick="resetForm()">Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const sidData = {
+            "SID2049": {agent: "Donald Cano", supervisor: "Rose Flores"},
+            "SID1765": {agent: "Jonny Gago", supervisor: "Rose Flores"},
+            "SID1802": {agent: "Jose Perez", supervisor: "Rose Flores"},
+            "SID1761": {agent: "Nemax Navas", supervisor: "Rose Flores"},
+            "SID2047": {agent: "David Sanchez", supervisor: "Jairo Reyes"},
+            "SID2151": {agent: "Martina Larios", supervisor: "Erwin Arauz"},
+            "SID1339": {agent: "Enmanuel Velasquez", supervisor: "Rose Flores"},
+            "SID1881": {agent: "Yadira Gomez", supervisor: "Rose Flores"},
+            "SID2236": {agent: "Jonathan Duarte", supervisor: "Jairo Reyes"},
+            "SID1573": {agent: "Cesar Arana", supervisor: "Rose Flores"},
+            "SID1663": {agent: "Alejandro Quinto", supervisor: "Rose Flores"},
+            "SID2100": {agent: "Rebeca Alvear", supervisor: "Erwin Arauz"},
+            "SID2239": {agent: "Yader Davila", supervisor: "Jairo Reyes"},
+            "SID1526": {agent: "Alira Lam", supervisor: "Rose Flores"},
+            "SID1849": {agent: "Kathrine Patterson", supervisor: "Rose Flores"},
+            "SID2242": {agent: "Brian Vivas", supervisor: "Erwin Arauz"},
+            "SID2296": {agent: "Nefi Lopez", supervisor: "Erwin Arauz"},
+            "SID1957": {agent: "Michel Sandoval", supervisor: "Rose Flores"},
+            "SID2291": {agent: "Concepción Gutierrez", supervisor: "Erwin Arauz"},
+            "SID2270": {agent: "Arelly Marenco", supervisor: "Rose Flores"},
+            "SID1246": {agent: "Chirley Mccoy", supervisor: "Rose Flores"},
+            "SID1441": {agent: "Danilo Lopez", supervisor: "Erwin Arauz"},
+            "SID2238": {agent: "Yader Ñamendy", supervisor: "Jairo Reyes"},
+            "SID2298": {agent: "Rosa Jara", supervisor: "Erwin Arauz"},
+            "SID2351": {agent: "Carlos Romero", supervisor: "Jairo Reyes"},
+            "SID1297": {agent: "Pedro Flores", supervisor: "Rose Flores"},
+            "SID2153": {agent: "Nahiris Mercado", supervisor: "Erwin Arauz"},
+            "SID2354": {agent: "Gloria Maldonado", supervisor: "Jairo Reyes"},
+            "SID2364": {agent: "Jose Rojas", supervisor: "Jairo Reyes"},
+            "SID2346": {agent: "Ana Barrera", supervisor: "Erwin Arauz"},
+            "SID2347": {agent: "Guillermo Cuadra", supervisor: "Erwin Arauz"},
+            "SID2355": {agent: "Tishelly Mendieta", supervisor: "Jairo Reyes"},
+            "SID2434": {agent: "Roger Aleman", supervisor: "Jairo Reyes"},
+            "SID2436": {agent: "Neythan Paz", supervisor: "Jairo Reyes"},
+            "SID2437": {agent: "Andrea Rocha", supervisor: "Jairo Reyes"},
+            "SID2438": {agent: "Aura Urtecho", supervisor: "Jairo Reyes"},
+            "SID2435": {agent: "Javier Reyes", supervisor: "Jairo Reyes"},
+            "SID2461": {agent: "Alejandro Cisneros", supervisor: "Erwin Arauz"},
+            "SID2462": {agent: "Yamil Saenz", supervisor: "Erwin Arauz"},
+            "SID2463": {agent: "Javier Rodriguez", supervisor: "Erwin Arauz"},
+            "SID2464": {agent: "Leeanthony Tellez", supervisor: "Erwin Arauz"},
+            "SID2485": {agent: "Eliezer Martinez", supervisor: "Ronaldo Gutierrez"},
+            "SID2486": {agent: "Anabell Ruiz", supervisor: "Ronaldo Gutierrez"},
+            "SID2487": {agent: "Bryan Carmona", supervisor: "Ronaldo Gutierrez"},
+            "SID2488": {agent: "Bryan Zelaya", supervisor: "Ronaldo Gutierrez"},
+            "SID2489": {agent: "Miguel Cortez", supervisor: "Ronaldo Gutierrez"},
+            "SID2490": {agent: "Allison Perez", supervisor: "Ronaldo Gutierrez"}
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setTodaysDate();
+            updateTotalScore();
+            document.getElementById('sid').addEventListener('change', populateFields);
+        });
+
+        function setTodaysDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('auditDate').value = today;
+            document.getElementById('ticketDate').value = today;
+        }
+
+        function updateScores(selectElement) {
+            const row = selectElement.closest('tr');
+            const weightCell = row.querySelector('.weight');
+            const pointsEarnedCell = row.querySelector('.points-earned');
+
+            const weight = parseFloat(weightCell.textContent);
+
+            if (selectElement.value === 'N') {
+                pointsEarnedCell.textContent = 0;
+            } else if (selectElement.value === 'Y') {
+                pointsEarnedCell.textContent = weight;
+            }
+
+            updateTotalScore();
+        }
+
+        function updateTotalScore() {
+            const pointsEarnedCells = document.querySelectorAll('.points-earned');
+            let totalPoints = 0;
+
+            pointsEarnedCells.forEach(cell => {
+                totalPoints += parseFloat(cell.textContent);
+            });
+
+            const redFlagSelects = document.querySelectorAll('.red-flags select');
+            let hasRedFlag = false;
+            redFlagSelects.forEach(select => {
+                if (select.value === 'Y') {
+                    hasRedFlag = true;
+                }
+            });
+
+            const totalPointsCell = document.getElementById('totalPoints');
+            const finalScoreCell = document.getElementById('finalScore');
+
+            if (hasRedFlag) {
+                totalPointsCell.textContent = 0;
+                finalScoreCell.textContent = '0.00%';
+            } else {
+                totalPointsCell.textContent = totalPoints;
+                finalScoreCell.textContent = ((totalPoints / 100) * 100).toFixed(2) + '%';
+            }
+
+            document.getElementById('finalGrade').textContent = finalScoreCell.textContent;
+        }
+
+        function resetForm() {
+            const selects = document.querySelectorAll('select');
+            selects.forEach(select => {
+                select.value = '';
+            });
+
+            document.getElementById('sid').value = '';
+            document.getElementById('ticketNumber').value = '';
+            document.getElementById('ptId').value = '';
+            document.getElementById('comments').value = '';
+            updateTotalScore();
+        }
+
+        function submitForm(event) {
+            event.preventDefault();
+
+            const data = {
+                sid: document.getElementById('sid').value,
+                agentName: document.getElementById('agentName').value,
+                auditor: document.getElementById('auditor').value,
+                supervisor: document.getElementById('supervisor').value,
+                auditDate: document.getElementById('auditDate').value,
+                ticketDate: document.getElementById('ticketDate').value,
+                ticketQueue: document.getElementById('ticketQueue').value,
+                ticketNumber: document.getElementById('ticketNumber').value,
+                ticketRightStoreScore: document.querySelectorAll('.score')[0].value,
+                ticketSubCategoryScore: document.querySelectorAll('.score')[1].value,
+                ticketValidReasonScore: document.querySelectorAll('.score')[2].value,
+                zeusIrisScore: document.querySelectorAll('.score')[3].value,
+                grade: document.getElementById('finalScore').textContent,
+                comments: document.getElementById('comments').value,
+                outcome: document.getElementById('sub-disposition').value,
+                finalGrade: document.getElementById('finalGrade').textContent
+            };
+
+            fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                // Optionally, reset the form or perform other actions
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        function populateFields() {
+            const sid = document.getElementById('sid').value;
+            if (sid in sidData) {
+                document.getElementById('agentName').value = sidData[sid].agent;
+                document.getElementById('supervisor').value = sidData[sid].supervisor;
+            } else {
+                document.getElementById('agentName').value = '';
+                document.getElementById('supervisor').value = '';
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
