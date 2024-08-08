@@ -18,13 +18,12 @@
             color: white;
             padding: 10px 20px;
             display: flex;
-            justify-content: flex-end; /* Changed from space-between to flex-end */
+            justify-content: space-between;
             align-items: center;
         }
 
         .top-bar .welcome {
             font-size: 14px;
-            margin-right: auto; /* Added to push sign-out button to the right */
         }
 
         .top-bar .sign-out {
@@ -395,29 +394,22 @@
                                 <option value="Bryan Carmona">Bryan Carmona</option>
                                 <option value="Bryan Zelaya">Bryan Zelaya</option>
                                 <option value="Miguel Cortez">Miguel Cortez</option>
-                                <option value="Allison Perez">Allison Perez">
-                            </datalist>
+                                <option value="Allison Perez">Allison Perez</option>
+                            </select>
                         </td>
                         <td><strong>Audit Date:</strong></td>
                         <td>
                             <input type="date" id="auditDate" readonly required>
                         </td>
                     </tr>
-                    <td><strong>Supervisor:</strong></td>
-                    <td>
-                        <select id="supervisor" required>
-                            <option value="">Select Supervisor</option>
-                            <option value="Erick Jimenez">Erick Jimenez</option>
-                            <option value="Jairo Reyes">Jairo Reyes</option>
-                            <option value="Erwin Arauz">Erwin Arauz</option>
-                            <option value="Rose Flores">Rose Flores</option>
-                            <option value="Ronaldo Gutierrez">Ronaldo Gutierrez</option>
-                        </select>
-                    </td>
                     <tr>
                         <td><strong>Ticket #:</strong></td>
                         <td>
                             <input type="text" id="ticketNumber" required>
+                        </td>
+                        <td><strong>Ticket Date:</strong></td>
+                        <td>
+                            <input type="date" id="ticketDate" required>
                         </td>
                     </tr>
                     <tr>
@@ -462,7 +454,17 @@
                                 <option value="Zeus - Corporate Login/ Access (CL)">Zeus - Corporate Login/ Access (CL)</option>
                             </select>
                         </td>
-
+                        <td><strong>Supervisor:</strong></td>
+                        <td>
+                            <select id="supervisor" required>
+                                <option value="">Select Supervisor</option>
+                                <option value="Erick Jimenez">Erick Jimenez</option>
+                                <option value="Jairo Reyes">Jairo Reyes</option>
+                                <option value="Erwin Arauz">Erwin Arauz</option>
+                                <option value="Rose Flores">Rose Flores</option>
+                                <option value="Ronaldo Gutierrez">Ronaldo Gutierrez</option>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
                         <td><strong>PT ID:</strong></td>
